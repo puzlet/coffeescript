@@ -51,7 +51,7 @@ TODO:
       }
       this.element = $("<script>", {
         type: "text/javascript",
-        id: this.id
+        "data-url": this.id
       });
       this.js = $coffee.compile({
         code: this.code,
@@ -63,7 +63,7 @@ TODO:
     };
 
     Compiler.prototype.findScript = function() {
-      return $("#" + this.id).length;
+      return $("[data-url='" + this.id + "']").length;
     };
 
     return Compiler;

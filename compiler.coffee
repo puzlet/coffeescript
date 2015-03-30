@@ -29,13 +29,14 @@ class Compiler
         @head.removeChild @element[0] if @findScript()
         @element = $ "<script>",
             type: "text/javascript"
-            id: @id
+            "data-url": @id
         @js = $coffee.compile {@code, @preProcess, @postProcess} 
         @element.text @js
         @head.appendChild @element[0]
     
     findScript: ->
-        $("#"+@id).length
+        $("[data-url='#{@id}']").length  # TODO: also restrict to script tags?
+#        $("#"+@id).length
 
 
 class Evaluator

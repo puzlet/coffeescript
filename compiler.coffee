@@ -1,42 +1,33 @@
-###
-TODO:
-###
-
 window.$coffee = {}
 
-$coffee.compile = (spec) ->
+$coffee.compile = (code, bare) ->
     # TODO: try/catch errors
-    {code, preProcess, postProcess, bare} = spec
-    preProcessedCode = preProcess?(code) ? code
-    js = CoffeeScript.compile preProcessedCode, bare: (bare ? false)
-    postJs = postProcess?(js) ? js
-    
-$coffee.evaluate = (spec) ->
+    CoffeeScript.compile code, bare: (bare ? false)
+
+$coffee.evaluate = (code, js) ->
     # Pass js if don't want to recompile.
-    {code, preProcess, postProcess, js} = spec
-    js = $coffee.compile {code, preProcess, postProcess} unless js
+    js = $coffee.compile code unless js
     eval js
     js
 
 class Compiler
     
     constructor: (@spec) ->
-        {@id, @preProcess, @postProcess} = @spec
+        @id = @spec.id
         @head = document.head
-    
+        
     compile: (@code) ->
         console.log "Compile #{@id}"
         @head.removeChild @element[0] if @findScript()
         @element = $ "<script>",
             type: "text/javascript"
             "data-url": @id
-        @js = $coffee.compile {@code, @preProcess, @postProcess} 
+        compile = @spec.compile ? $coffee.compile
+        @js = compile @code
         @element.text @js
         @head.appendChild @element[0]
-    
     findScript: ->
         $("[data-url='#{@id}']").length  # TODO: also restrict to script tags?
-#        $("#"+@id).length
 
 
 class Evaluator
@@ -55,7 +46,7 @@ class Evaluator
     lf: "\n"
     
     constructor: (@spec) ->
-        {@id, @preProcess, @postProcess} = @spec
+        @id = @spec.id
         @js = null
     
     compile: (@code) ->
@@ -78,11 +69,8 @@ class Evaluator
             
         try
             # Evaluated lines will be assigned to $coffee.eval.
-            @js = $coffee.evaluate
-                code: @evalLines
-                preProcess: @preProcess
-                postProcess: @postProcess
-                js: js
+            evaluate = @spec.evaluate ? $coffee.evaluate
+            @js = evaluate @evalLines, js
         catch error
             console.log "eval error", error
         

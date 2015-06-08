@@ -10,6 +10,7 @@ $coffee.evaluate = (code, js) ->
     eval js
     js
 
+
 class Compiler
     
     constructor: (@spec) ->
@@ -106,6 +107,7 @@ class Evaluator
             return line
         catch error
             return ""
+
 
 $coffee.compiler = (spec) -> new Compiler spec
 $coffee.evaluator = (spec) -> new Evaluator spec

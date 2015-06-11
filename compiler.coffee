@@ -2,15 +2,15 @@ window.$coffee = {}
 
 $coffee.compile = (code, bare) ->
     # TODO: try/catch errors
-    CoffeeScript.compile code, bare: (bare ? false)
+    js = CoffeeScript.compile code, bare: (bare ? false)
+    js
 
 $coffee.evaluate = (code, js) ->
     # Pass js if don't want to recompile.
     js = $coffee.compile code unless js
     eval js
     js
-
-
+    
 class Compiler
     
     constructor: (@spec) ->
@@ -27,6 +27,7 @@ class Compiler
         @js = compile @code
         @element.text @js
         @head.appendChild @element[0]
+    
     findScript: ->
         $("[data-url='#{@id}']").length  # TODO: also restrict to script tags?
 

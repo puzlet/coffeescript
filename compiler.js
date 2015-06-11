@@ -5,9 +5,11 @@
   window.$coffee = {};
 
   $coffee.compile = function(code, bare) {
-    return CoffeeScript.compile(code, {
+    var js;
+    js = CoffeeScript.compile(code, {
       bare: bare != null ? bare : false
     });
+    return js;
   };
 
   $coffee.evaluate = function(code, js) {
@@ -61,12 +63,14 @@
       this.js = null;
     }
 
-    Evaluator.prototype.compile = function(code) {
-      var codeLines, compile, error, evaluate, js, l, n, recompile, stringify, _ref;
+    Evaluator.prototype.compile = function(code, recompile) {
+      var codeLines, compile, error, evaluate, js, l, n, stringify, _ref;
       this.code = code;
+      if (recompile == null) {
+        recompile = true;
+      }
       console.log("Evaluate " + this.id);
       $coffee.evaluating = this.id;
-      recompile = true;
       stringify = true;
       compile = recompile || !(this.evalLines && this.js);
       if (compile) {

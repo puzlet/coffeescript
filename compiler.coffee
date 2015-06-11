@@ -51,11 +51,11 @@ class Evaluator
         @id = @spec.id
         @js = null
     
-    compile: (@code) ->
+    compile: (@code, recompile=true) ->
         console.log "Evaluate #{@id}"
         $coffee.evaluating = @id
         
-        recompile = true
+        #recompile = true
         
         stringify = true #ZZZ test
         compile = recompile or not(@evalLines and @js)

@@ -69,7 +69,6 @@
       if (recompile == null) {
         recompile = true;
       }
-      console.log("Evaluate " + this.id);
       $coffee.evaluating = this.id;
       stringify = true;
       compile = recompile || !(this.evalLines && this.js);

@@ -52,7 +52,6 @@ class Evaluator
         @js = null
     
     compile: (@code, recompile=true) ->
-        console.log "Evaluate #{@id}"
         $coffee.evaluating = @id
         
         #recompile = true

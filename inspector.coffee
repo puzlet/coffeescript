@@ -128,7 +128,13 @@ class Inspector
 		if isString(value)
 			simple = "'" + JSON.stringify(value).replace(/^"|"$/g, "").replace(/'/g, "\\'").replace(/\\"/g, "\"") + "'"
 			return @stylize(simple, "string")
-		return @stylize("" + Math.round(value*10000)/10000, "number") if isNumber(value)  # ZZZ rounding should be a parameter
+		formatNumber = (x) ->
+			if x is 0 or Number.isInteger?(x) and Math.abs(x)<1e10
+				x
+			else
+				x.toPrecision(4) #@precision ? 4)
+		return @stylize("" + formatNumber(value), "number") if isNumber(value)  # ZZZ rounding should be a parameter
+		#return @stylize("" + Math.round(value*10000)/10000, "number") if isNumber(value)  # ZZZ rounding should be a parameter
 		return @stylize("" + value, "boolean") if isBoolean(value)
 		
 		# For some reason typeof null is "object", so special case here.

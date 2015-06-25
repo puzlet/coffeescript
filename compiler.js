@@ -352,7 +352,7 @@
     };
 
     Inspector.prototype.formatPrimitive = function(value) {
-      var simple;
+      var formatNumber, simple;
       if (isUndefined(value)) {
         return this.stylize("undefined", "undefined");
       }
@@ -360,8 +360,15 @@
         simple = "'" + JSON.stringify(value).replace(/^"|"$/g, "").replace(/'/g, "\\'").replace(/\\"/g, "\"") + "'";
         return this.stylize(simple, "string");
       }
+      formatNumber = function(x) {
+        if (x === 0 || (typeof Number.isInteger === "function" ? Number.isInteger(x) : void 0) && Math.abs(x) < 1e10) {
+          return x;
+        } else {
+          return x.toPrecision(4);
+        }
+      };
       if (isNumber(value)) {
-        return this.stylize("" + Math.round(value * 10000) / 10000, "number");
+        return this.stylize("" + formatNumber(value), "number");
       }
       if (isBoolean(value)) {
         return this.stylize("" + value, "boolean");

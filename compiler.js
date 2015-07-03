@@ -28,11 +28,12 @@
     }
 
     Compiler.prototype.compile = function(code) {
-      var compile, _ref;
+      var compile, script, _ref;
       this.code = code;
       console.log("Compile " + this.id);
-      if (this.findScript()) {
-        this.head.removeChild(this.element[0]);
+      script = this.findScript();
+      if (script.length) {
+        this.head.removeChild(script[0]);
       }
       this.element = $("<script>", {
         type: "text/javascript",
@@ -45,7 +46,7 @@
     };
 
     Compiler.prototype.findScript = function() {
-      return $("[data-url='" + this.id + "']").length;
+      return $("script[data-url='" + this.id + "']");
     };
 
     return Compiler;

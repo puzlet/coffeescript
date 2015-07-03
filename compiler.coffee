@@ -19,7 +19,8 @@ class Compiler
         
     compile: (@code) ->
         console.log "Compile #{@id}"
-        @head.removeChild @element[0] if @findScript()
+        script = @findScript()
+        @head.removeChild script[0] if script.length
         @element = $ "<script>",
             type: "text/javascript"
             "data-url": @id
@@ -29,7 +30,8 @@ class Compiler
         @head.appendChild @element[0]
     
     findScript: ->
-        $("[data-url='#{@id}']").length  # TODO: also restrict to script tags?
+        $("script[data-url='#{@id}']")
+    
 
 
 class Evaluator

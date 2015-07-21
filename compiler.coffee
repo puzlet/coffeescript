@@ -79,7 +79,7 @@ class Evaluator
         
         @resultArray = $coffee.eval["#{@id}"]
         @result = @stringify @resultArray
-            
+        
         return @result #unless stringify  # ZZZ perhaps break into 2 steps (separate calls): process then stringify?
         
     stringify: (resultArray) ->

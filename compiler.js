@@ -103,9 +103,17 @@
       try {
         evaluate = (_ref = this.spec.evaluate) != null ? _ref : $coffee.evaluate;
         this.js = evaluate(this.evalLines, js);
+        $.event.trigger("blabError", {
+          source: this.id,
+          error: null
+        });
       } catch (_error) {
         error = _error;
-        console.log("eval error", error);
+        this.js = js;
+        $.event.trigger("blabError", {
+          source: this.id,
+          error: error.message
+        });
       }
       this.resultArray = $coffee["eval"]["" + this.id];
       this.result = this.stringify(this.resultArray);

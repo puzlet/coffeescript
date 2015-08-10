@@ -74,9 +74,10 @@ class Evaluator
             # Evaluated lines will be assigned to $coffee.eval.
             evaluate = @spec.evaluate ? $coffee.evaluate
             @js = evaluate @evalLines, js
+            $.event.trigger "blabError", {source: @id, error: null}
         catch error
-            console.log "eval error", error
-            #alert error
+            @js = js
+            $.event.trigger "blabError", {source: @id, error: error.message}
         
         @resultArray = $coffee.eval["#{@id}"]
         @result = @stringify @resultArray

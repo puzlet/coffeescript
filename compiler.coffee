@@ -76,6 +76,7 @@ class Evaluator
             @js = evaluate @evalLines, js
         catch error
             console.log "eval error", error
+            alert error
         
         @resultArray = $coffee.eval["#{@id}"]
         @result = @stringify @resultArray

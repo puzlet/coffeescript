@@ -106,7 +106,6 @@
       } catch (_error) {
         error = _error;
         console.log("eval error", error);
-        alert(error);
       }
       this.resultArray = $coffee["eval"]["" + this.id];
       this.result = this.stringify(this.resultArray);

@@ -10,7 +10,8 @@ $coffee.evaluate = (code, js) ->
     js = $coffee.compile code unless js
     eval js
     js
-    
+
+
 class Compiler
     
     constructor: (@spec) ->
